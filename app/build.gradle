@@ -38,6 +38,11 @@ android {
     buildFeatures {
         viewBinding true
     }
+    sourceSets {
+        main {
+            assets.srcDirs = ['src/main/assets', 'src/main/assets/'] // 默认路径
+        }
+    }
 }
 
 dependencies {

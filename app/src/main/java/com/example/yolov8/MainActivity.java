@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
     static {
         System.loadLibrary("yolov8ncnn");
     }
-
+    boolean useGpu = true;
     // 定义 native 方法ƒ
-    public native boolean initYolo(AssetManager assetManager);
+    public native boolean initYolo(AssetManager assetManager, boolean useGpu);
     public native boolean detect(Bitmap bitmap);
 
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
         // 初始化模型
         executorService.execute(() -> {
-            boolean success = initYolo(getAssets());
+            boolean success = initYolo(getAssets(), useGpu);
             if (!success) {
                 Log.e(TAG, "Failed to initialize YOLO model.");
             } else {
