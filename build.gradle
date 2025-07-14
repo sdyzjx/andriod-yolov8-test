@@ -1,0 +1,21 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    // 定义一个变量来统一管理版本号，这是个好习惯
+    ext.kotlin_version = '1.8.20' // 你可以使用一个较新的稳定版本
+
+    repositories {
+        google()
+        mavenCentral()
+    }
+    dependencies {
+        // 你项目里应该已经有这一行了，确保版本号匹配
+        classpath 'com.android.tools.build:gradle:8.0.2'
+
+        // ✅ 添加下面这一行，这就是解决问题的关键！
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+plugins {
+alias(libs.plugins.android.application) apply false
+}
