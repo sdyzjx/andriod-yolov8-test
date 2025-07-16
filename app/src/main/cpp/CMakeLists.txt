@@ -8,6 +8,6 @@ find_package(OpenCV REQUIRED core imgproc)
 set(ncnn_DIR ${CMAKE_SOURCE_DIR}/${ANDROID_ABI}/lib/cmake/ncnn)
 find_package(ncnn REQUIRED)
 
-add_library(yolov8ncnn SHARED native-lib.cpp)
+add_library(yolov8ncnn SHARED yolov8ncnn.cpp yolo.cpp)
 
 target_link_libraries(yolov8ncnn ncnn ${OpenCV_LIBS})
