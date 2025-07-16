@@ -1,3 +1,7 @@
+//
+// Created by 张靖轩 on 2025/7/15.
+//
+
 #include <android/asset_manager_jni.h>
 #include <android/native_window_jni.h>
 #include <android/native_window.h>
@@ -76,7 +80,7 @@ static int draw_fps(cv::Mat& rgb)
 
     return 0;
 }
-
+//采用结构体形式，方便在java与cpp之间实现传参
 struct NativeProcessor {
     ANativeWindow* window = nullptr;
     YOLO* yolo_detector = nullptr; // 你的YOLO检测器实例
@@ -220,7 +224,7 @@ extern "C" {
                 processor->yolo_detector = nullptr;
             }
             delete processor;
-            if (g_processor == processor) { // 确保我们删除的是全局指针指向的对象
+            if (g_processor == processor) {
                 g_processor = nullptr;
             }
             LOGD("Native processor released.");
