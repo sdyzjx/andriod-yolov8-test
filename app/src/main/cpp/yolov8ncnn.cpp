@@ -94,7 +94,7 @@ static NativeProcessor* g_processor = nullptr;
 static ncnn::Mutex g_lock; // 用于保护对 g_processor 的访问
 extern "C" {
     JNIEXPORT jlong JNICALL
-    Java_com_example_yolov8_MainActivity_initNative(JNIEnv *env, jobject thiz, jobject surface, jobject assetManager, jboolean use_gpu) {
+    Java_com_example_yolov8_MainActivity_initNative(JNIEnv *env, jobject thiz, jobject surface, jobject assetManager) {
         ncnn::MutexLockGuard guard(g_lock); //ncnn加锁，防止多线程同时初始化
         //防止重复初始化
         if (g_processor) {
@@ -126,6 +126,7 @@ extern "C" {
             LOGE("assert frome java failed");
             return JNI_FALSE;
         }
+        //设置yolo识别的尺寸
         const int target_sizes[] = {
             320,
             320,
@@ -138,6 +139,7 @@ extern "C" {
             { 1 / 255.f, 1 / 255.f, 1 / 255.f },
             { 1 / 255.f, 1 / 255.f, 1 / 255.f },
         };
+        bool use_gpu = true;
         //加载yolo模型
         int ret = g_processor->yolo_detector->load(mgr, target_sizes[0], mean_vals[0], norm_vals[0], (int)use_gpu);
         if (ret) {
