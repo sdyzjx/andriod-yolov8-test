@@ -94,7 +94,7 @@ static NativeProcessor* g_processor = nullptr;
 static ncnn::Mutex g_lock; // 用于保护对 g_processor 的访问
 extern "C" {
     JNIEXPORT jlong JNICALL
-    Java_com_example_yolov8_MainActivity_initNative(JNIEnv *env, jobject thiz, jobject surface, jobject assetManager, jboolean use_gpu) {
+    Java_com_example_yolov8_VideoProcessor_initNative(JNIEnv *env, jobject thiz, jobject surface, jobject assetManager, jboolean use_gpu) {
         ncnn::MutexLockGuard guard(g_lock); //ncnn加锁，防止多线程同时初始化
         //防止重复初始化
         if (g_processor) {
@@ -152,7 +152,7 @@ extern "C" {
         return reinterpret_cast<jlong>(g_processor);
     }
     JNIEXPORT void JNICALL
-    Java_com_example_yolov8_MainActivity_processFrameNative(JNIEnv *env, jobject thiz, jlong native_ptr,
+    Java_com_example_yolov8_VideoProcessor_processFrameNative(JNIEnv *env, jobject thiz, jlong native_ptr,
                                                             jbyteArray frame_data, jint width, jint height, jlong timestamp) {
         ncnn::MutexLockGuard guard(g_lock);
         NativeProcessor* processor = reinterpret_cast<NativeProcessor*>(native_ptr);
@@ -211,7 +211,7 @@ extern "C" {
         env->ReleaseByteArrayElements(frame_data, pixels, JNI_ABORT);
     }
     JNIEXPORT void JNICALL
-    Java_com_example_yolov8_MainActivity_releaseNative(JNIEnv *env, jobject thiz, jlong native_ptr) {
+    Java_com_example_yolov8_VideoProcessor_releaseNative(JNIEnv *env, jobject thiz, jlong native_ptr) {
         ncnn::MutexLockGuard guard(g_lock);
         NativeProcessor* processor = reinterpret_cast<NativeProcessor*>(native_ptr);
         if (processor) {
